@@ -11,6 +11,7 @@ const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 const AWS_BUCKET_Region = process.env.AWS_BUCKET_REGION;
 const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+
 AWS.config.apiVersions = {};
 AWS.config.update({
   accessKeyId: AWS_ACCESS_KEY,
