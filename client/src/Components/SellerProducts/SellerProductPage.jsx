@@ -187,7 +187,10 @@ const SellerProductsPage = () => {
                         <b>Price:</b> ${product.price}
                       </Typography>
                       <img
-                        src={"" + product.imageUrl}
+                        src={
+                          "https://tame-lamb-long-johns.cyclic.app" +
+                          product.imageUrl
+                        }
                         alt=""
                         className="product-image"
                       />
