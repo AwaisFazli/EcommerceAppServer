@@ -13,7 +13,7 @@ const ProductsPage = () => {
   useEffect(() => {
     // Fetch products from the server
     axios
-      .get("http://localhost:8000/products")
+      .get("/products")
       .then((response) => {
         setProducts(response.data);
         console.log(response.data);
