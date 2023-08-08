@@ -11,6 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import { MdDelete, MdClose } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import "./SellerProductPage.css"; // Import the CSS file
 
 const SellerProductsPage = () => {
@@ -19,6 +20,7 @@ const SellerProductsPage = () => {
 
   const [editBar, setEditBar] = useState(false);
   const [editBarWidth, setEditBarWidth] = useState(0);
+  const navigate = useNavigate();
 
   const [editImage, setEditImage] = useState("");
   const Server = "http://localhost:8000";
@@ -163,6 +165,9 @@ const SellerProductsPage = () => {
       ) : null}
       <Container maxWidth="md" sx={{ mt: 3, mb: 3 }}>
         <h1>Seller Products</h1>
+        <Button variant="contained" onClick={() => navigate("/createproduct")}>
+          <b>Add Product</b>
+        </Button>
         {products.length === 0 ? (
           <h1>No Products to show</h1>
         ) : (

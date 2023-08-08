@@ -39,3 +39,66 @@
   object-fit: contain;
   object-position: center;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 50px;
+  background-color: #333;
+  color: white;
+}
+
+.navbar h2 {
+  margin: 0;
+}
+
+.navbar-buttons a {
+  color: white;
+  text-decoration: none;
+  margin-left: 10px;
+  transition: opacity 0.3s;
+}
+
+.navbar-buttons a:hover {
+  opacity: 0.7;
+}
+
+/* Loader styles */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.loader {
+  color: #333;
+}
+
+/* Card styles */
+.card {
+  border: 1px solid #ddd;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-content {
+  padding: 16px;
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+/* Price style */
+.price {
+  margin-top: 10px;
+  font-weight: bold;
+}
