@@ -24,12 +24,8 @@ app.get("*", function (_, res) {
   );
 });
 
-// app.listen(port, () => {
-//   console.log(`Server is listening on Port:${port}...`);
-// });
+connectDB();
 
-connectDB().then(() => {
-  app.listen(port, () => {
-    console.log("listening for requests");
-  });
+app.listen(port, () => {
+  console.log(`Server is listening on Port:${port}...`);
 });
