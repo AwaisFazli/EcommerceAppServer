@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const url = "mongodb://127.0.0.1:27017/E-Com";
+// const url = "mongodb://127.0.0.1:27017/E-Com";
+require("dotenv").config();
+const url = process.env.MongoURI;
 
 const connectDB = async () => {
   try {
