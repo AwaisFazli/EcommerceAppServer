@@ -44,12 +44,6 @@ const ProductsPage = () => {
                     <Typography variant="subtitle1" className="price">
                       Price: ${product.price}
                     </Typography>
-                    {/* <img
-                      src={product.imageUrl}
-                      alt=""
-                      className="product-image"
-                    /> */}
-
                     <img
                       src={product.imageUrl}
                       alt=""

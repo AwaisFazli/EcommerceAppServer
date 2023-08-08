@@ -2,6 +2,7 @@ const auth = require("../middlewares/auth");
 const sellerControllers = require("../controllers/sellerControllers");
 const imageSaver = require("../middlewares/imageSaver");
 const { imageUploader } = require("../middlewares/s3");
+// const { imageSaver } = require("../middlewares/imageSaver");
 
 const { Router } = require("express");
 const router = Router();
@@ -22,13 +23,13 @@ router.post("/signin", sellerControllers.Signin);
 // Post Seller Product upload
 // Will send product details witl jwt
 // server will check the id through JWT and will made the record of product with rspective id to the seller
-router.post("/product", auth, imageUploader, sellerControllers.createProduct);
+router.post("/product", auth, imageSaver, sellerControllers.createProduct);
 
 // Put Seller Product Edit
 // will send the product details with product id and its own id using JWT and server will check if the product id is available
 // if available then we will proceed if not then send product not available if available the we will match the seller id
 // written in product if it matches with the sender it then we will make the changes otherwise throw error of unauthorized
-router.put("/product/:id", auth, imageUploader, sellerControllers.editProduct);
+router.put("/product/:id", auth, imageSaver, sellerControllers.editProduct);
 
 // Delete Seller Product Edit
 // will send the product details with product id and its own id using JWT and server will check if the product id is available

@@ -61,6 +61,7 @@ sellerControllers.Signin = async (req, res) => {
 sellerControllers.createProduct = async (req, res) => {
   const { name, description, price, stockQuantity } = req.body;
   const sellerId = req.userId;
+  console.log(req.imageUrl);
 
   try {
     const newProduct = {
@@ -69,7 +70,7 @@ sellerControllers.createProduct = async (req, res) => {
       sellerId: sellerId,
       price: price,
       stock: stockQuantity,
-      imageUrl: `/images/${req.result.key}`,
+      imageUrl: req.imageUrl,
     };
     const product = await Product.create(newProduct);
     res.send({ msg: "Seller Create Products Successful", product });
@@ -94,7 +95,7 @@ sellerControllers.editProduct = async (req, res) => {
     product.name = name || product.name;
     product.description = description || product.description;
     product.price = price || product.price;
-    product.imageUrl = `/images/${req.result.key}` || product.imageUrl;
+    product.imageUrl = req.imageUrl || product.imageUrl;
 
     await product.save();
 

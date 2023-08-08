@@ -25,11 +25,9 @@ const s3fsImpl = new S3FS(AWS_BUCKET_NAME, {
   region: AWS_BUCKET_REGION,
 });
 
-const ensureUploadsDirectory = () => {
-  // No need to create a local directory when using s3fs
-};
+const ensureUploadsDirectory = () => {};
 
-const storage = multer.memoryStorage(); // Use memory storage for multer
+const storage = multer.memoryStorage();
 
 const imageSaver = multer({ storage: storage }).single("image");
 
