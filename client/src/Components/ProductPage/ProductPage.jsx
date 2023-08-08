@@ -20,7 +20,7 @@ const ProductsPage = () => {
 
   useEffect(() => {
     axios
-      .get(Server + "/products")
+      .get("/products")
       .then((response) => {
         setProducts(response.data);
         setIsLoading(false);
