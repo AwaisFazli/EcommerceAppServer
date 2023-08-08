@@ -146,7 +146,7 @@ const SellerProductsPage = () => {
             }}
           />
           <br />
-          {editData.imageUrl ? (
+          {editData?.imageUrl ? (
             <img src={editData.imageUrl} alt="" className="product-image" />
           ) : (
             ""
@@ -187,7 +187,7 @@ const SellerProductsPage = () => {
                         <b>Price:</b> ${product.price}
                       </Typography>
                       <img
-                        src={product.imageUrl}
+                        src={"" + product.imageUrl}
                         alt=""
                         className="product-image"
                       />
