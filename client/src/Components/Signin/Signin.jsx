@@ -29,7 +29,7 @@ const Signin = () => (
             console.log(values);
             axios
 
-              .post("http://localhost:8000/seller/signin", values, {
+              .post("/seller/signin", values, {
                 headers: {
                   "Content-Type": "application/json",
                 },

@@ -45,7 +45,7 @@ const ProductsPage = () => {
                       Price: ${product.price}
                     </Typography>
                     <img
-                      src={Server + product.imageUrl}
+                      src={product.imageUrl}
                       alt=""
                       className="product-image"
                     />
