@@ -19,7 +19,7 @@ const ProductsPage = () => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching products:", error.message);
+        console.error("Error fetching products Here:", error.message);
       });
   }, []);
 
