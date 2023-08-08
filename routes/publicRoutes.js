@@ -21,11 +21,36 @@ router.get("/images/:key", (req, res) => {
 // });
 
 router.get("/products", async (req, res) => {
-  const products = await productSchema.find({});
-  res.send(products);
+  try {
+    const products = await productSchema.find({});
+    res.send(products);
+  } catch (error) {
+    console.error(error.message);
+    res.send("Something went wrong");
+  }
+});
+
+router.delete("/products", async (req, res) => {
+  try {
+    const deleteResult = await productSchema.deleteMany({});
+
+    if (deleteResult.deletedCount > 0) {
+      res.send(`Deleted ${deleteResult.deletedCount} products.`);
+    } else {
+      res.send("No products found to delete.");
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Something went wrong");
+  }
 });
 
 router.post("/uploadphoto", imageUploader, (req, res) => {
+  console.log(req.result);
+  res.send(req.res);
+});
+
+router.delete("/uploadphoto", imageUploader, (req, res) => {
   console.log(req.result);
   res.send(req.res);
 });

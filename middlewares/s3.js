@@ -2,27 +2,27 @@ const AWS = require("aws-sdk");
 const path = require("path");
 const multer = require("multer");
 require("dotenv").config();
-const S3FS = require("s3fs"); // Import the s3fs package
+const S3FS = require("s3fs");
 
 const appRoot = global.appRoot;
 const uploadDir = path.join(appRoot, "uploads/");
 
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-const AWS_BUCKET_Region = process.env.AWS_BUCKET_REGION;
+const AWS_BUCKET_REGION = process.env.AWS_BUCKET_REGION;
 const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 
 AWS.config.update({
   accessKeyId: AWS_ACCESS_KEY,
   secretAccessKey: AWS_SECRET_KEY,
-  region: AWS_BUCKET_Region,
+  region: AWS_BUCKET_REGION,
 });
 
 const s3 = new AWS.S3();
 const s3fsImpl = new S3FS(AWS_BUCKET_NAME, {
   accessKeyId: AWS_ACCESS_KEY,
   secretAccessKey: AWS_SECRET_KEY,
-  region: AWS_BUCKET_Region,
+  region: AWS_BUCKET_REGION,
 });
 
 const ensureUploadsDirectory = () => {
