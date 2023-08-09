@@ -1,23 +1,14 @@
 const { Router } = require("express");
 const router = Router();
 const productSchema = require("../modals/productSchema");
-const { imageUploader, getFileStream } = require("../middlewares/s3");
+const SellerSchema = require("../modals/sellerSchema");
+// const { imageUploader, getFileStream } = require("../middlewares/s3");
 
-router.get("/images/:key", (req, res) => {
-  const key = req.params.key;
-  const readStream = getFileStream(key);
+// router.get("/images/:key", (req, res) => {
+//   const key = req.params.key;
+//   const readStream = getFileStream(key);
 
-  readStream.pipe(res);
-});
-
-// router.post("/uploadphoto", upload.single("image"), async (req, res) => {
-//   console.log(req.body);
-//   console.log(req.file);
-//   const file = req.file;
-
-//   const result = await uploadFile(file);
-//   console.log(result);
-//   res.send({ imagePath: `image/${result.Key}` });
+//   readStream.pipe(res);
 // });
 
 router.get("/products", async (req, res) => {
@@ -32,7 +23,7 @@ router.get("/products", async (req, res) => {
 
 router.delete("/products", async (req, res) => {
   try {
-    const deleteResult = await productSchema.deleteMany({});
+    const deleteResult = await SellerSchema.deleteMany({});
 
     if (deleteResult.deletedCount > 0) {
       res.send(`Deleted ${deleteResult.deletedCount} products.`);
@@ -43,16 +34,6 @@ router.delete("/products", async (req, res) => {
     console.error(error.message);
     res.status(500).send("Something went wrong");
   }
-});
-
-router.post("/uploadphoto", imageUploader, (req, res) => {
-  console.log(req.result);
-  res.send(req.res);
-});
-
-router.delete("/uploadphoto", imageUploader, (req, res) => {
-  console.log(req.result);
-  res.send(req.res);
 });
 
 module.exports = router;

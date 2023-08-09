@@ -3,6 +3,7 @@ const app = express();
 require("dotenv").config();
 const cors = require("cors");
 const port = process.env.PORT || 8000;
+const url = process.env.MongoURI;
 
 const path = require("path");
 global.appRoot = path.resolve(__dirname);
@@ -24,8 +25,15 @@ app.get("*", function (_, res) {
   );
 });
 
-connectDB();
+const start = async () => {
+  try {
+    await connectDB(url);
+    app.listen(port, () =>
+      console.log(`Server is listening on port ${port}...`)
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-app.listen(port, () => {
-  console.log(`Server is listening on Port:${port}...`);
-});
+start();

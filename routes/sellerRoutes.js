@@ -1,8 +1,7 @@
 const auth = require("../middlewares/auth");
 const sellerControllers = require("../controllers/sellerControllers");
 const imageSaver = require("../middlewares/imageSaver");
-const { imageUploader } = require("../middlewares/s3");
-// const { imageSaver } = require("../middlewares/imageSaver");
+// const { imageUploader } = require("../middlewares/s3");
 
 const { Router } = require("express");
 const router = Router();
