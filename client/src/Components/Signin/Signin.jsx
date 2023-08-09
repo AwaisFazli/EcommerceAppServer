@@ -53,7 +53,7 @@ const Signin = () => {
                     console.log("Response from server:", response.data);
                     localStorage.setItem("token", response.data.token);
                     setIsLoading(false);
-                    // navigate("/");
+                    navigate("/");
                   })
                   .catch((error) => {
                     console.error("Error:", error);

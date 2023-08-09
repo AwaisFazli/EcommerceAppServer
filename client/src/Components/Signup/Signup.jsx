@@ -68,7 +68,7 @@ const Signup = () => {
                   setLoading(false);
 
                   console.log("Response from server:", response.data);
-                  // navigate("/signin");
+                  navigate("/signin");
                 } catch (error) {
                   setLoading(false);
                   console.error("Error:", error.message);
