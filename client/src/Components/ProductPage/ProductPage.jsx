@@ -8,17 +8,18 @@ import {
   Container,
   CircularProgress,
 } from "@mui/material";
-import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import "./ProductPage.css";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Add isLoading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState("");
 
-  const Server = "http://localhost:8000";
+  // const Server = "http://localhost:8000";
 
   useEffect(() => {
+    setToken(localStorage.getItem("token"));
     axios
       .get("/products")
       .then((response) => {
@@ -39,8 +40,12 @@ const ProductsPage = () => {
         <h2>Home Page</h2>
         <div className="navbar-buttons">
           <Link to="/signup">Sign Up</Link>
-          <Link to="/signin">Sign In</Link>
-          <Link to="/sellerproducts">Dashboard</Link>
+
+          {token ? (
+            <Link to="/sellerproducts">Dashboard</Link>
+          ) : (
+            <Link to="/signin">Sign In</Link>
+          )}
         </div>
       </nav>
 
