@@ -1,6 +1,7 @@
 const { v2 } = require("cloudinary");
 const cloudinary = v2;
 const multer = require("multer");
+const crypto = require("crypto");
 
 // Cloudinary configuration
 cloudinary.config({
