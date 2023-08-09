@@ -15,6 +15,7 @@ const Signup = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isSeller, setIsSeller] = useState(false);
 
   return (
     <div className="Signupcontainer">
@@ -31,24 +32,48 @@ const Signup = () => {
             }}
             validationSchema={SignupSchema}
             onSubmit={async (values) => {
-              console.log(values);
-              try {
-                setLoading(true);
+              if (isSeller === true) {
+                try {
+                  setLoading(true);
 
-                const response = await axios.post("/seller/signup", values, {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                });
+                  const response = await axios.post("/seller/signup", values, {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  });
 
-                setLoading(false);
+                  setLoading(false);
 
-                console.log("Response from server:", response.data);
-                navigate("/signin");
-              } catch (error) {
-                setLoading(false);
-                console.error("Error:", error.message);
-                setError("Login failed. Please try again.");
+                  console.log("Response from server:", response.data);
+                  navigate("/signin");
+                } catch (error) {
+                  setLoading(false);
+                  console.error("Error:", error.message);
+                  setError("Login failed. Please try again.");
+                }
+              } else {
+                try {
+                  setLoading(true);
+
+                  const response = await axios.post(
+                    "/purchaser/signup",
+                    values,
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  );
+
+                  setLoading(false);
+
+                  console.log("Response from server:", response.data);
+                  // navigate("/signin");
+                } catch (error) {
+                  setLoading(false);
+                  console.error("Error:", error.message);
+                  setError("Login failed. Please try again.");
+                }
               }
             }}
           >
@@ -113,11 +138,19 @@ const Signup = () => {
                   }}
                 />
                 <br />
+                <div class="sellerCheckboxContainer">
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      onChange={() => setIsSeller(!isSeller)}
+                    />
+                    <span class="slider round"></span>
+                  </label>
+                  <h4 className="">Is Seller?</h4>
+                </div>
                 {error && <p className="error-message">{error}</p>}{" "}
-                {/* Display error message */}
                 <Button type="submit" variant="contained" disabled={loading}>
                   {loading ? <CircularProgress size={24} /> : "Submit"}{" "}
-                  {/* Display loader or "Submit" based on loading state */}
                 </Button>
               </Form>
             )}

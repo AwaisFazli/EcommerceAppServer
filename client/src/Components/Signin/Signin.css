@@ -69,3 +69,10 @@
 .form .MuiButton-root:hover {
   background-color: #9f6770;
 }
+.donthaveAccount {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 100%;
+}

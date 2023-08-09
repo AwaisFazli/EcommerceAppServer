@@ -7,7 +7,7 @@ const purchaserControllers = {};
 
 // Controller for Purchaser Signup
 purchaserControllers.Signup = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
     const existingPurchaser = await Purchaser.findOne({ email });
@@ -18,7 +18,7 @@ purchaserControllers.Signup = async (req, res) => {
         .json({ error: "Purchaser with this email already exists." });
     }
 
-    const newPurchaser = { email, password };
+    const newPurchaser = { username, email, password };
     await Purchaser.create(newPurchaser);
 
     res.send("Purchaser Signup Successful");

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Assuming you're using React Router
 import { Formik, Form } from "formik";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { TextField, Button, CircularProgress, Snackbar } from "@mui/material";
 import { Alert } from "@mui/material";
@@ -21,6 +22,7 @@ const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [isSeller, setIsSeller] = useState(false);
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -37,27 +39,51 @@ const Signin = () => {
             }}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
-              setIsLoading(true);
-              setError("");
+              if (isSeller == true) {
+                setIsLoading(true);
+                setError("");
 
-              axios
-                .post("/seller/signin", values, {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                })
-                .then((response) => {
-                  console.log("Response from server:", response.data);
-                  localStorage.setItem("token", response.data.token);
-                  setIsLoading(false);
-                  navigate("/");
-                })
-                .catch((error) => {
-                  console.error("Error:", error);
-                  setError("Login failed. Please check your credentials.");
-                  setIsLoading(false);
-                  setOpenSnackbar(true);
-                });
+                axios
+                  .post("http://localhost:8000/seller/signin", values, {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                  .then((response) => {
+                    console.log("Response from server:", response.data);
+                    localStorage.setItem("token", response.data.token);
+                    setIsLoading(false);
+                    // navigate("/");
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                    setError("Login failed. Please check your credentials.");
+                    setIsLoading(false);
+                    setOpenSnackbar(true);
+                  });
+              } else {
+                setIsLoading(true);
+                setError("");
+
+                axios
+                  .post("http://localhost:8000/purchaser/signin", values, {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                  .then((response) => {
+                    console.log("Response from server:", response.data);
+                    localStorage.setItem("token", response.data.token);
+                    setIsLoading(false);
+                    navigate("/");
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                    setError("Login failed. Please check your credentials.");
+                    setIsLoading(false);
+                    setOpenSnackbar(true);
+                  });
+              }
             }}
           >
             {({ errors, touched, setFieldValue }) => (
@@ -89,8 +115,17 @@ const Signin = () => {
                     setFieldValue("password", event.target.value);
                   }}
                 />
+                <div class="sellerCheckboxContainer">
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      onChange={() => setIsSeller(!isSeller)}
+                    />
+                    <span class="slider round"></span>
+                  </label>
+                  <h4 className="">Is Seller?</h4>
+                </div>
 
-                <br />
                 {isLoading ? (
                   <CircularProgress style={{ margin: "20px auto" }} />
                 ) : (
@@ -111,12 +146,13 @@ const Signin = () => {
                     )}
                   </>
                 )}
+                <br />
+                <div className="donthaveAccount">
+                  <Link to={"/signup"}>Dont have an account?</Link>
+                </div>
               </Form>
             )}
           </Formik>
-        </div>
-        <div className="image-section">
-          <div className="image-text"></div>
         </div>
       </div>
     </div>
