@@ -9,10 +9,12 @@ import {
   Container,
   Button,
   TextField,
+  CircularProgress,
 } from "@mui/material";
-import { MdDelete, MdClose } from "react-icons/md";
+import { MdDelete, MdClose, MdArrowBackIos } from "react-icons/md";
+
 import { useNavigate } from "react-router-dom";
-import "./SellerProductPage.css"; // Import the CSS file
+import "./SellerProductPage.css";
 
 const SellerProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -20,10 +22,9 @@ const SellerProductsPage = () => {
 
   const [editBar, setEditBar] = useState(false);
   const [editBarWidth, setEditBarWidth] = useState(0);
+  const [isLoading, setIsLoading] = useState("");
   const navigate = useNavigate();
-
-  const [editImage, setEditImage] = useState("");
-  const Server = "http://localhost:8000";
+  // const Server = "http://localhost:8000";
 
   const editBarOpen = (check, product) => {
     setEditBar(check);
@@ -163,53 +164,67 @@ const SellerProductsPage = () => {
           </Button>
         </div>
       ) : null}
-      <Container maxWidth="md" sx={{ mt: 3, mb: 3 }}>
-        <h1>Seller Products</h1>
-        <Button variant="contained" onClick={() => navigate("/createproduct")}>
-          <b>Add Product</b>
-        </Button>
-        {products.length === 0 ? (
-          <h1>No Products to show</h1>
-        ) : (
-          <Grid container spacing={3}>
-            {products.map((product) => {
-              return (
-                <Grid item key={product._id} xs={12} sm={6} md={4}>
-                  <Card className="card">
-                    <CardContent className="card-content">
-                      <div className="productName">
-                        <Typography variant="h6" gutterBottom>
-                          <b>Name:</b> {product.name}
+      {isLoading ? (
+        <div className="loader-container">
+          <CircularProgress className="loader" />
+        </div>
+      ) : (
+        <Container maxWidth="md" sx={{ mt: 3, mb: 3 }}>
+          <div className="headingBar">
+            <span onClick={() => navigate("/")}>
+              <MdArrowBackIos size={34} />
+            </span>
+            <h1>Seller Products</h1>
+          </div>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/createproduct")}
+          >
+            <b>Add Product</b>
+          </Button>
+          {products.length === 0 ? (
+            <h1>No Products to show</h1>
+          ) : (
+            <Grid container spacing={3}>
+              {products.map((product) => {
+                return (
+                  <Grid item key={product._id} xs={12} sm={6} md={4}>
+                    <Card className="card">
+                      <CardContent className="card-content">
+                        <div className="productName">
+                          <Typography variant="h6" gutterBottom>
+                            <b>Name:</b> {product.name}
+                          </Typography>
+                          <span onClick={() => deleteProduct(product._id)}>
+                            <MdDelete size={30} />
+                          </span>
+                        </div>
+                        <Typography variant="body1">
+                          {product.description}
                         </Typography>
-                        <span onClick={() => deleteProduct(product._id)}>
-                          <MdDelete size={30} />
-                        </span>
-                      </div>
-                      <Typography variant="body1">
-                        {product.description}
-                      </Typography>
-                      <Typography variant="subtitle1" className="price">
-                        <b>Price:</b> ${product.price}
-                      </Typography>
-                      <img
-                        src={product.imageUrl}
-                        alt=""
-                        className="product-image"
-                      />
-                      <Button
-                        variant="contained"
-                        onClick={() => editBarOpen(true, product)}
-                      >
-                        Edit
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              );
-            })}
-          </Grid>
-        )}
-      </Container>
+                        <Typography variant="subtitle1" className="price">
+                          <b>Price:</b> ${product.price}
+                        </Typography>
+                        <img
+                          src={product.imageUrl}
+                          alt=""
+                          className="product-image"
+                        />
+                        <Button
+                          variant="contained"
+                          onClick={() => editBarOpen(true, product)}
+                        >
+                          Edit
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          )}
+        </Container>
+      )}
     </>
   );
 };

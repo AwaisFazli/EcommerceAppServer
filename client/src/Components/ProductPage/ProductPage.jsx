@@ -32,31 +32,37 @@ const ProductsPage = () => {
         console.error("Error fetching products:", error.message);
       });
   }, []);
+  const signOutHandler = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+  };
 
   return (
     <Container maxWidth="md" sx={{ mt: 3 }}>
-      {/* Navbar */}
       <nav className="navbar">
         <h2>Home Page</h2>
         <div className="navbar-buttons">
-          <Link to="/signup">Sign Up</Link>
-
           {token ? (
             <Link to="/sellerproducts">Dashboard</Link>
           ) : (
             <Link to="/signin">Sign In</Link>
           )}
+          {token ? (
+            <Link to="/" onClick={() => signOutHandler()}>
+              Sign Out
+            </Link>
+          ) : (
+            <Link to="/signup">Sign Up</Link>
+          )}
         </div>
       </nav>
 
-      {/* Display loader if data is being loaded */}
       {isLoading ? (
         <div className="loader-container">
           <CircularProgress className="loader" />
         </div>
       ) : (
         <React.Fragment>
-          {/* Check if products are available */}
           {products.length === 0 ? (
             <h1>No Products to show</h1>
           ) : (

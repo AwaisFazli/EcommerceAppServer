@@ -61,3 +61,19 @@
   align-items: center;
   justify-items: center;
 }
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.loader {
+  color: #333;
+}
+.headingBar {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+}
