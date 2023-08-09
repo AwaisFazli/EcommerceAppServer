@@ -21,10 +21,13 @@ module.exports = (req, res, next) => {
       return res.status(400).json({ error: "No image provided." });
     }
 
-    const fileBuffer = req.file.buffer; // Get the file buffer
+    const fileBuffer = req.file.buffer;
+    const uniquePublicId = `${Date.now()}_${crypto
+      .randomBytes(8)
+      .toString("hex")}`;
 
     const uploadStream = cloudinary.uploader.upload_stream(
-      { public_id: "unique_public_id_for_image" },
+      { public_id: uniquePublicId },
       function (error, result) {
         if (error) {
           console.error("Cloudinary upload error:", error);
