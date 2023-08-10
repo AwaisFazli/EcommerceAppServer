@@ -53,12 +53,16 @@ const ProductForm = () => {
               formData.append("image", values.image);
 
               try {
-                const response = await axios.post("/seller/product", formData, {
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                    token: localStorage.getItem("token"),
-                  },
-                });
+                const response = await axios.post(
+                  "http://localhost:8000/seller/product",
+                  formData,
+                  {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                      token: localStorage.getItem("token"),
+                    },
+                  }
+                );
                 console.log("Product added successfully:", response.data);
                 setIsLoading(false);
                 navigate("/sellerproducts");

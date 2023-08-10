@@ -2,14 +2,6 @@ const { Router } = require("express");
 const router = Router();
 const productSchema = require("../modals/productSchema");
 const SellerSchema = require("../modals/sellerSchema");
-// const { imageUploader, getFileStream } = require("../middlewares/s3");
-
-// router.get("/images/:key", (req, res) => {
-//   const key = req.params.key;
-//   const readStream = getFileStream(key);
-
-//   readStream.pipe(res);
-// });
 
 router.get("/products", async (req, res) => {
   try {

@@ -37,7 +37,7 @@ const SellerProductsPage = () => {
     const token = localStorage.getItem("token");
     console.log(editData);
     axios
-      .put("/seller/product/" + id, editData, {
+      .put("http://localhost:8000/seller/product/" + id, editData, {
         headers: {
           "Content-Type": "multipart/form-data",
           token: token,
@@ -54,7 +54,7 @@ const SellerProductsPage = () => {
   useEffect(() => {
     // Fetch products from the server
     axios
-      .get("/seller/myProducts", {
+      .get("http://localhost:8000/seller/myProducts", {
         headers: {
           "Content-Type": "application/json",
           token: localStorage.getItem("token"),
@@ -72,7 +72,7 @@ const SellerProductsPage = () => {
   const deleteProduct = (id) => {
     // console.log("http://localhost:8000/seller/product/" + id);
     axios
-      .delete("/seller/product/" + id, {
+      .delete("http://localhost:8000/seller/product/" + id, {
         headers: {
           "Content-Type": "application/json",
           token: localStorage.getItem("token"),
