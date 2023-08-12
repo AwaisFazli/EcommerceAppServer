@@ -57,11 +57,20 @@ sellerControllers.Signin = async (req, res) => {
   }
 };
 
+sellerControllers.getUserData = async (req, res) => {
+  const userId = req.body.userId;
+  const user = await Purchaser.findOne({ userId });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  res.send(user);
+};
+
 // Controller to Create Sellers Products
 sellerControllers.createProduct = async (req, res) => {
   const { name, description, price, stockQuantity } = req.body;
-  const sellerId = req.userId;
-  console.log(req.imageUrl);
 
   try {
     const newProduct = {

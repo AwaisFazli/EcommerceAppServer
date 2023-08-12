@@ -1,0 +1,28 @@
+.cocook-section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  display: flex;
+}
+
+.cocook-content {
+  width: 30%;
+}
+
+.cocook-title {
+  margin-bottom: 10px;
+  font-size: 25px;
+  font-weight: medium;
+  text-align: center;
+}
+
+.cocook-description {
+  text-align: justify;
+}
+
+.cocook-image {
+  width: 300px;
+  height: 100px;
+  object-fit: contain;
+}

@@ -2,7 +2,7 @@ const Seller = require("../modals/sellerSchema");
 const Purchaser = require("../modals/purchaserSchema");
 const Product = require("../modals/productSchema");
 const Order = require("../modals/orderSchema");
-
+const jwt = require("jsonwebtoken");
 const purchaserControllers = {};
 
 // Controller for Purchaser Signup
@@ -31,6 +31,7 @@ purchaserControllers.Signup = async (req, res) => {
 // Controller for Purchaser Signin
 purchaserControllers.Signin = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
 
   try {
     const existingPurchaser = await Purchaser.findOne({ email });
@@ -45,7 +46,11 @@ purchaserControllers.Signin = async (req, res) => {
       return res.status(401).json({ error: "Incorrect password." });
     }
 
-    res.send("Purchaser Signin Successful");
+    const token = jwt.sign({ id: existingPurchaser.id }, "Secret-Key", {
+      expiresIn: "340924903294434",
+    });
+
+    res.json({ token });
   } catch (error) {
     res.status(500).json({ message: "Failed to sign in Purchaser" });
   }
@@ -92,28 +97,25 @@ purchaserControllers.viewCartProducts = async (req, res) => {
 // Controller for Purchaser to Checkout
 purchaserControllers.checkout = async (req, res) => {
   try {
-    // Assuming you have a way to associate cart items with the purchaser, for example, using req.userId
+    // console.log(req.body);
+    const { products, information, totalPrice } = req.body;
     const purchaserId = req.userId;
-    const cartItems = await Cart.find({ purchaser: purchaserId });
 
-    // Assuming you have a way to calculate the total amount and other details for the order
-    const order = {
+    const newOrder = new Order({
+      address: information.address,
+      contact: information.contact,
+      receiver: information.receiver,
+      sellers: products.map((product) => product.sellerId),
+      products: products.map((product) => product._id),
       purchaser: purchaserId,
-      products: cartItems.map((item) => item.product),
-      totalAmount: 100, // Replace with the actual calculated total amount
-      createdAt: new Date(),
-    };
+      totalPrice: totalPrice,
+    });
 
-    await Order.create(order);
-
-    // Assuming you have a way to handle payment processing (e.g., using Stripe API)
-    // Implement the payment processing logic here...
-
-    // Clear the cart after successful checkout
-    await Cart.deleteMany({ purchaser: purchaserId });
+    await newOrder.save();
 
     res.send("Checkout via Stripe");
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ message: "Failed to complete checkout" });
   }
 };

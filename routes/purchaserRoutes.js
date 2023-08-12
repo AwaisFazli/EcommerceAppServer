@@ -40,6 +40,6 @@ router.post("/checkout", auth, purchaserControllers.checkout);
 
 // View Purchasers Orders
 // Get Orders list
-router.get("/orders/:id", auth, purchaserControllers.viewOrders);
+router.get("/orders", auth, purchaserControllers.viewOrders);
 
 module.exports = router;

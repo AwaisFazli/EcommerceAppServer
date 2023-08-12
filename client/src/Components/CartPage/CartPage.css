@@ -7,9 +7,24 @@
   height: 100vh;
   background-color: #fff;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
   box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  transition: "0.5s ease";
+}
+
+.cartContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.cartContainer::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.cartContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 .CartHeader {
@@ -92,4 +107,34 @@
 
 .BuyButton:hover {
   background-color: #0056b3;
+}
+.quantity-controls {
+  display: flex;
+  flex-direction: row;
+}
+.quantity-button {
+  background-color: #f1f1f1;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.quantity-button:hover {
+  background-color: #ddd;
+}
+
+.quantity-input {
+  width: 20px;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 1rem;
+  margin: 0 0.5rem;
 }

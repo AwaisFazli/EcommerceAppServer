@@ -7,6 +7,10 @@ const purchaserSchema = new Schema({
     required: true,
     unique: true,
   },
+  email: {
+    type: String,
+    require: true,
+  },
   password: {
     type: String,
     required: true,

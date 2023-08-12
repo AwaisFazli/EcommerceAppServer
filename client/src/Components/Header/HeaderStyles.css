@@ -1,0 +1,58 @@
+.profile-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 32px;
+  margin-top: 24px;
+  gap: 5px;
+  color: #ede7dc;
+  cursor: pointer;
+}
+
+.profile-bar:hover {
+  color: white;
+}
+
+.profile-name {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.avatar-icon {
+  font-size: 25px;
+}
+.logo-section {
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-text {
+  color: white;
+  font-size: 40px;
+  letter-spacing: 15px;
+  display: flex;
+}
+
+.nav-links-container {
+  color: #ede7dc;
+  font-size: 18px;
+  display: flex;
+  padding-left: 4px;
+}
+
+.nav-link {
+  padding-bottom: 2px;
+  transition: all 0.3s;
+  border-bottom: 2px solid transparent;
+  margin-left: 30px;
+}
+
+.nav-link:hover {
+  border-bottom-color: #745d4a;
+}

@@ -19,6 +19,9 @@ router.post("/signup", sellerControllers.Signup);
 // JWT will be stored in local storage
 router.post("/signin", sellerControllers.Signin);
 
+// Get Seller Data
+router.get("/userdata", auth, sellerControllers.getUserData);
+
 // Post Seller Product upload
 // Will send product details witl jwt
 // server will check the id through JWT and will made the record of product with rspective id to the seller

@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Container,
-  CircularProgress,
-} from "@mui/material";
+
 import { Link, useNavigate } from "react-router-dom";
 import "./ProductPage.css";
 import { useDispatch } from "react-redux";
 import { addCartProduct, setOpenCart } from "../../Store/Slices/cartSlices";
 import { useSelector } from "react-redux";
 import CartPage from "../CartPage/CartPage";
+import { CircularProgress } from "@mui/material";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import ProductCard from "../ProductCard/ProductCard";
+import CartIcon from "../CartPage/CartIcon";
+import { Pagination } from "@mui/material";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -23,13 +21,19 @@ const ProductsPage = () => {
   const dispatch = useDispatch();
   const isCartOpen = useSelector((state) => state.cartProducts.isOpen);
   const navigate = useNavigate();
+  const [page, setPage] = React.useState(1);
+  const offset = 8;
+  const count = Math.ceil(products.length / offset);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   // const Server = "http://localhost:8000";
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
     axios
-      .get("http://localhost:8000/products")
+      .get("/products")
       .then((response) => {
         setProducts(response.data);
         setIsLoading(false);
@@ -57,72 +61,39 @@ const ProductsPage = () => {
   };
 
   return (
-    <div>
-      <Container maxWidth="md" sx={{ mt: 3 }}>
-        <nav className="navbar ">
-          <h2 className="">Home Page</h2>
-          <div className="navbar-buttons">
-            {token ? (
-              <Link to="/sellerproducts">Dashboard</Link>
-            ) : (
-              <Link to="/signin">Sign In</Link>
-            )}
-            {token ? (
-              <Link to="/" onClick={() => signOutHandler()}>
-                Sign Out
-              </Link>
-            ) : (
-              <Link to="/signup">Sign Up</Link>
-            )}
+    <div className="background-white">
+      <CartIcon />
+      <Header textColor={"#393f51"} background={"#faf4e8"} />
+      {isLoading ? (
+        <div className="loader-container">
+          <CircularProgress className="loader" />
+        </div>
+      ) : (
+        <div>
+          <div className="product-page-title-section">
+            Taste The Freshness From Oven
           </div>
-        </nav>
+          <div className="product-page-pagination-section background-pink">
+            <Pagination
+              count={count}
+              page={page}
+              onChange={handleChange}
+              size="large"
+            />
+          </div>
 
-        {isLoading ? (
-          <div className="loader-container">
-            <CircularProgress className="loader" />
+          <div className="product-page-grid background-pink">
+            {products.slice(page, page + offset).map((product, index) => {
+              return <ProductCard product={product} key={index} />;
+            })}
           </div>
-        ) : (
-          <React.Fragment>
-            {products.length === 0 ? (
-              <h1>No Products to show</h1>
-            ) : (
-              <Grid container spacing={3}>
-                {products.map((product) => {
-                  return (
-                    <Grid item key={product._id} xs={12} sm={6} md={4}>
-                      <Card className="card">
-                        <CardContent className="card-content">
-                          <Typography variant="h6" gutterBottom>
-                            <b>{product.name}</b>
-                          </Typography>
-                          <Typography variant="body1">
-                            {product.description}'{" "}
-                          </Typography>
-                          <Typography variant="subtitle1" className="price">
-                            Price: ${product.price}
-                          </Typography>
-                          <Typography variant="subtitle1" className="price">
-                            Stock: {product.stock}
-                          </Typography>
-                          <img
-                            src={product.imageUrl}
-                            alt=""
-                            className="product-image"
-                          />
-                          <span onClick={() => cartProductHandler(product)}>
-                            <Button variant="contained">Buy Now</Button>
-                          </span>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            )}
-          </React.Fragment>
-        )}
-      </Container>
+        </div>
+      )}
+
       {isCartOpen ? <CartPage /> : null}
+      <div className="bg-white">
+        <Footer />
+      </div>
     </div>
   );
 };

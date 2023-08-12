@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Signup from "./Components/Signup/Signup";
@@ -11,19 +11,53 @@ import CartPage from "./Components/CartPage/CartPage";
 // import ProtectedRoutes from "./routes/ProtectedRoutes";
 import SellerProductPage from "./Components/SellerProducts/SellerProductPage";
 import HomePage from "./Components/HomePage/HomePage";
+import ProductsPage from "./Components/ProductPage/ProductPage";
+import PurchaserProfile from "./Components/PurchaserProfile/PurchaserProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { addUserData } from "./Store/Slices/userDataSlices";
+import axios from "axios";
 
 function App() {
+  const [token, setToken] = useState("");
+  const dispatch = useDispatch();
+
+  const setUserData = (payload) => {
+    dispatch(addUserData(payload));
+  };
+
+  useEffect(() => {
+    // setToken(localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get("/seller/userdata", {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: token,
+          },
+        })
+        .then((response) => {
+          setUserData(response.data);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
+  }, []);
+
   const user = "";
   return (
     <Router>
       <div className="App">
         <Routes>
           <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/products" element={<ProductsPage />} />
           <Route exact path="/sellerproducts" element={<SellerProductPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/createproduct" element={<CreateProduct />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/profile" element={<PurchaserProfile />} />
         </Routes>
         {/* <div className="App">
       <Router>{user ? <ProtectedRoutes /> : <AuthRoutes />}</Router>

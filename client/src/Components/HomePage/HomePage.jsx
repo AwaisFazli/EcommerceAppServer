@@ -1,10 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import "./HomePageStyles.css";
+import Header from "../Header/Header";
+import ProductCard from "../ProductCard/ProductCard";
+import Footer from "../Footer/Footer";
+import CartIcon from "../CartPage/CartIcon";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +16,7 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const isCartOpen = useSelector((state) => state.cartProducts.isOpen);
   const navigate = useNavigate();
+
   useEffect(() => {
     setToken(localStorage.getItem("token"));
     axios
@@ -32,32 +36,10 @@ const HomePage = () => {
     setToken(null);
   };
   return (
-    <div>
-      <div className="header bg-custom-gray relative">
-        <div className="profile-bar">
-          <h1 className="profile-name">Awais</h1>{" "}
-          <CgProfile className="avatar-icon" size={25} />
-        </div>
-        <div className="logo-section">
-          <h1 className="logo-text">CoCook</h1>
-        </div>
-        <div className="nav-links-container">
-          <Link to={"/"} className="nav-link">
-            Home
-          </Link>
-          <Link to={"/signup"} className="nav-link">
-            Join
-          </Link>
-          <Link to={"/signin"} className="nav-link">
-            Login
-          </Link>
-          <Link to={"/"} className="nav-link">
-            About
-          </Link>
-          <Link to={"/"} className="nav-link">
-            Contact Us
-          </Link>
-        </div>
+    <div className=" bg-custom-gray ">
+      <CartIcon />
+      <div className="header relative">
+        <Header />
         <div className="buy-anything-section">
           <div className="buy-anything-container">
             <div className="buy-anything-text">
@@ -65,7 +47,12 @@ const HomePage = () => {
               <br /> At Anytime
             </div>
             <div className="order-now-button-container">
-              <button className="order-now-button">Order Now</button>
+              <button
+                className="order-now-button"
+                onClick={() => navigate("/products")}
+              >
+                Order Now
+              </button>
             </div>
           </div>
           <div className="buy-anything-section-image-section hover transition-all">
@@ -127,34 +114,12 @@ const HomePage = () => {
         </h1>
       </div>
       <div className="product-list">
-        {products.map((product, index) => (
-          <div key={index} className="product-card hover transition-all">
-            <img src={product.imageUrl} alt="" className="product-image" />
-            <div className="product-details">
-              <h1 className="product-name">{product.name}</h1>
-              <h1 className="product-divider">_______</h1>
-              <h1 className="product-price">${product.price}</h1>
-              <button className="order-button">Order Now</button>
-            </div>
-          </div>
+        {products.slice(-3).map((product, index) => (
+          <ProductCard product={product} key={index} />
         ))}
       </div>
-      <div className="cocook-section">
-        <div className="cocook-content">
-          <h1 className="cocook-title">CoCook</h1>
-          <p className="cocook-description">
-            CoCook is integral wholesale based on futurist vision,
-            determination, hard work, and passion was the path a young Pakistani
-            Man took a place since he was 20 years old.
-          </p>
-        </div>
-        <div className="w-[70%] flex justify-center items-center">
-          <img
-            src="https://pfa.gop.pk/wp-content/uploads/2022/12/pfa-final-logo.png"
-            alt=""
-            className="cocook-image"
-          />
-        </div>
+      <div className="bg-white">
+        <Footer />
       </div>
     </div>
   );
