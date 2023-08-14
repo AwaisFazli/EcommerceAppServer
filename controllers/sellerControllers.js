@@ -16,7 +16,7 @@ sellerControllers.Signup = async (req, res) => {
     if (existingSeller) {
       return res
         .status(400)
-        .json({ error: "Seller with this email already exists." });
+        .send({ error: "Seller with this email already exists." });
     }
 
     const newSeller = { email, password, username };
@@ -25,7 +25,7 @@ sellerControllers.Signup = async (req, res) => {
     res.send({ msg: "Seller Signup Successful", seller });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Failed to sign up seller" });
+    res.status(500).send({ message: "Failed to sign up seller" });
   }
 };
 
@@ -58,8 +58,8 @@ sellerControllers.Signin = async (req, res) => {
 };
 
 sellerControllers.getUserData = async (req, res) => {
-  const userId = req.body.userId;
-  const user = await Purchaser.findOne({ userId });
+  const userId = req.userId;
+  const user = await Seller.findById(userId);
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
@@ -76,7 +76,7 @@ sellerControllers.createProduct = async (req, res) => {
     const newProduct = {
       name: name,
       description: description,
-      sellerId: sellerId,
+      sellerId: req.userId,
       price: price,
       stock: stockQuantity,
       imageUrl: req.imageUrl,
@@ -91,6 +91,7 @@ sellerControllers.createProduct = async (req, res) => {
 
 // Controller to edit Sellers own Products
 sellerControllers.editProduct = async (req, res) => {
+  console.log(req.body);
   const { id } = req.params;
   console.log(req.body);
 
@@ -111,6 +112,26 @@ sellerControllers.editProduct = async (req, res) => {
     res.send(`Edit Product with ID ${id} Successful`);
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "Failed to edit product" });
+  }
+};
+
+sellerControllers.editProductImage = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.imageUrl);
+  try {
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ error: "Product with this ID not found." });
+    }
+
+    product.imageUrl = req.imageUrl;
+
+    await product.save();
+
+    res.send(`Edit Product with ID ${id} Successful`);
+  } catch (error) {
+    console.log(error.message);
     res.status(500).json({ message: "Failed to edit product" });
   }
 };
@@ -159,8 +180,21 @@ sellerControllers.viewProduct = async (req, res) => {
 
 // Controller to edit Sellers own Order Status
 sellerControllers.editOrderStatus = async (req, res) => {
-  const { orderId } = req.params; // Assuming you have a route parameter for orderId
+  const { orderId } = req.params;
   res.send(`Change Status of Order with ID ${orderId}`);
+};
+
+sellerControllers.viewOrders = async (req, res) => {
+  try {
+    const sellerId = req.userId;
+    const orders = await Order.find({ sellers: sellerId }).populate({
+      path: "products",
+      match: { sellerId: sellerId },
+    });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch orders" });
+  }
 };
 
 module.exports = sellerControllers;

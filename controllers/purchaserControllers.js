@@ -31,11 +31,8 @@ purchaserControllers.Signup = async (req, res) => {
 // Controller for Purchaser Signin
 purchaserControllers.Signin = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
-
   try {
     const existingPurchaser = await Purchaser.findOne({ email });
-
     if (!existingPurchaser) {
       return res
         .status(404)
@@ -54,6 +51,19 @@ purchaserControllers.Signin = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Failed to sign in Purchaser" });
   }
+};
+
+// Get Purchaser Data
+purchaserControllers.getUserData = async (req, res) => {
+  const userId = req.userId;
+
+  const user = await Purchaser.findOne({ _id: userId });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  res.send(user);
 };
 
 // Controller for Purchaser to View All Products

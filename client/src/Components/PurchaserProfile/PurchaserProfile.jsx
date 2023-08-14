@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import PurchaserOrdersSection from "./PurchaserOrderSection";
+import { IoChevronBackSharp } from "react-icons/io5";
+import { removeUserData } from "../../Store/Slices/userDataSlices";
 
 const PurchaserProfile = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showOrders, setShowOrders] = useState(true);
   const [ordersData, setOrdersData] = useState([]);
@@ -17,6 +23,12 @@ const PurchaserProfile = () => {
     minute: "2-digit",
     second: "2-digit",
     timeZoneName: "short",
+  };
+  const signOutHandler = () => {
+    dispatch(removeUserData);
+    localStorage.removeItem("token");
+    navigate("/");
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -41,13 +53,25 @@ const PurchaserProfile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#faf4e8]">
+    <div className="min-h-screen bg-[white]">
       <div className="flex flex-row items-end space-x-2 px-[2rem] pt-[2rem]">
-        <h1 className="text-[22px] pb-[5px]"> Welcome</h1>{" "}
+        <div
+          className="mb-[6px] text-gray-500 hover:text-black hover:cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          <IoChevronBackSharp size={30} />
+        </div>
+        <h1 className="text-[22px] pb-[5px]">Welcome </h1>{" "}
         <h1 className="text-[32px]">{userData.username}</h1>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end shadow-xl">
         <div className="flex grow border-b-2 border-black"></div>
+        <button
+          className={`py-[0.5rem] px-[2rem] border-black border-b-2`}
+          onClick={() => signOutHandler()}
+        >
+          Sign out
+        </button>
         <button
           className={`py-[0.5rem] px-[2rem] border-black r ${
             showOrders ? "border-t-2 border-r-2 border-l-2" : "border-b-2"
@@ -56,14 +80,14 @@ const PurchaserProfile = () => {
         >
           Orders
         </button>
-        <button
+        {/* <button
           className={`py-[0.5rem] px-[2rem] border-black ${
             showOrders ? "border-b-2" : "border-t-2 border-r-2 border-l-2"
           }`}
           onClick={() => setShowOrders(false)}
         >
           Personal Data
-        </button>
+        </button> */}
         <div className="w-[2rem] border-b-2 border-black"></div>
       </div>
       {isLoading ? (
@@ -71,53 +95,7 @@ const PurchaserProfile = () => {
           <CircularProgress className="loader" />
         </div>
       ) : (
-        <>
-          {" "}
-          {showOrders ? (
-            <div className="py-6 px-8">
-              <h1 className="text-3xl font-semibold mb-4">Your Orders</h1>
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr>
-                    <th className="py-2">Index</th>
-                    <th className="py-2">Id</th>
-                    <th className="py-2">Receiver</th>
-                    <th className="py-2">Created On</th>
-                    <th className="py-2">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {ordersData.map((order, index) => {
-                    const date = new Date(order.date);
-                    return (
-                      <>
-                        <tr key={order._id} className="border-b">
-                          <td className="py-3 text-center">{index + 1}</td>
-                          <td className="py-3 text-center">{order._id}</td>
-                          <td className="py-3 text-center">{order.receiver}</td>
-                          <td className="py-3 text-center">
-                            {date.toLocaleDateString("en-PK", options)}
-                          </td>
-                          <td className="py-3 text-center">{order.status}</td>
-                        </tr>
-                        <tr>
-                          <td colSpan={5}>
-                            <div
-                              className="bg-white mb-[2rem] flex w-full"
-                              key={index}
-                            ></div>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            ""
-          )}
-        </>
+        <> {showOrders ? <PurchaserOrdersSection /> : ""}</>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // Assuming you're using React Router
+import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
@@ -9,6 +9,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUserData } from "../../Store/Slices/userDataSlices";
 import { IoChevronBackSharp } from "react-icons/io5";
+import { addUrlState } from "../../Store/Slices/urlStateSlices";
 import "./Signin.css";
 
 const SignupSchema = Yup.object().shape({
@@ -22,13 +23,11 @@ const SignupSchema = Yup.object().shape({
 
 const Signin = ({ secondary }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [isSeller, setIsSeller] = useState(false);
   const dispatch = useDispatch();
-  console.log(location.pathname);
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -39,9 +38,9 @@ const Signin = ({ secondary }) => {
 
   const setUserDataHandler = (token) => {
     axios
-      .get("/seller/userdata", {
+      .get("/purchaser/userdata", {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           token: token,
         },
       })
@@ -54,6 +53,11 @@ const Signin = ({ secondary }) => {
         console.error(error.message);
         setIsLoading(false);
       });
+  };
+
+  const navigateToSignup = () => {
+    dispatch(addUrlState("/cart"));
+    navigate("/signup");
   };
   return (
     <>
@@ -177,7 +181,9 @@ const Signin = ({ secondary }) => {
                     )}
                     <br />
                     <div className="donthaveAccount">
-                      <Link to={"/signup"}>Dont have an account?</Link>
+                      <spane onClick={() => navigateToSignup()}>
+                        Dont have an account?
+                      </spane>
                     </div>
                   </div>
                 </Form>
@@ -186,10 +192,20 @@ const Signin = ({ secondary }) => {
           </div>
         </div>
       ) : (
-        <div className="container">
-          <div className="form-wrapper">
-            <div className="form">
-              <h1>Log in</h1>
+        <div className="min-h-screen flex items-center Signincontainer">
+          <div className="max-w-[600px] h-screen rounded-r-3xl bg-white flex items-center shadow-xl relative border-white border-2">
+            <div className="absolute  top-0 left-0 p-[2rem]">
+              <h1
+                className="text-[32px] hover:cursor-pointer transform hover:scale-110 hover:text-[#3b5442] transition-all "
+                onClick={() => navigate("/")}
+              >
+                CoCook
+              </h1>
+            </div>
+            <div className="bg-white flex items-center flex-col p-[2rem]">
+              <div className="flex items-start justify-start w-full">
+                <h1 className="text-[22px]">Log In</h1>
+              </div>
               <Formik
                 initialValues={{
                   password: "",
@@ -211,8 +227,7 @@ const Signin = ({ secondary }) => {
                         console.log("Response from server:", response.data);
                         localStorage.setItem("token", response.data.token);
                         setIsLoading(false);
-                        navigate("/");
-                        window.location.reload();
+                        navigate("/seller");
                       })
                       .catch((error) => {
                         console.error("Error:", error);
@@ -227,16 +242,18 @@ const Signin = ({ secondary }) => {
                     setError("");
 
                     axios
-                      .post("http://localhost:8000/purchaser/signin", values, {
+                      .post("/purchaser/signin", values, {
                         headers: {
                           "Content-Type": "application/json",
                         },
                       })
                       .then((response) => {
                         console.log("Response from server:", response.data);
+
                         localStorage.setItem("token", response.data.token);
                         setIsLoading(false);
                         navigate("/");
+                        window.location.reload();
                       })
                       .catch((error) => {
                         console.error("Error:", error);
@@ -262,7 +279,9 @@ const Signin = ({ secondary }) => {
                       onChange={(event) => {
                         setFieldValue("email", event.target.value);
                       }}
+                      style={{ marginBottom: "10px" }}
                     />
+
                     <TextField
                       name="password"
                       label="Password"
@@ -277,7 +296,9 @@ const Signin = ({ secondary }) => {
                       onChange={(event) => {
                         setFieldValue("password", event.target.value);
                       }}
+                      style={{ marginBottom: "10px" }}
                     />
+                    <div className="w-full h-[1rem]"></div>
                     <div class="sellerCheckboxContainer">
                       <label class="switch">
                         <input
@@ -288,14 +309,18 @@ const Signin = ({ secondary }) => {
                       </label>
                       <h4 className="">Is Seller?</h4>
                     </div>
+                    <div className="w-full h-[1rem]"></div>
 
                     {isLoading ? (
                       <CircularProgress style={{ margin: "20px auto" }} />
                     ) : (
                       <>
-                        <Button type="submit" variant="contained">
+                        <button
+                          type="submit"
+                          className="w-full py-[1rem] border-[#959191] border-2 text-[black] hover:border-[#3b5442] hover:bg-[#3b5442] hover:text-[#f7f2dd] transition-all"
+                        >
                           Submit
-                        </Button>
+                        </button>
                         {error && (
                           <Snackbar
                             open={openSnackbar}

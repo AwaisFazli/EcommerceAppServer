@@ -18,6 +18,9 @@ router.post("/signup", purchaserControllers.Signup);
 // JWT will be stored in local storage
 router.post("/signin", purchaserControllers.Signin);
 
+// Get Seller Data
+router.get("/userdata", auth, purchaserControllers.getUserData);
+
 // Can view all products
 // Get Products
 router.get("/products", purchaserControllers.viewProducts);
@@ -40,6 +43,7 @@ router.post("/checkout", auth, purchaserControllers.checkout);
 
 // View Purchasers Orders
 // Get Orders list
+router.put("/orders/:id", auth, purchaserControllers.viewOrders);
 router.get("/orders", auth, purchaserControllers.viewOrders);
 
 module.exports = router;

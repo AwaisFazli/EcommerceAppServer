@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-import axios from "axios";
 import "./HeaderStyles.css";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUserData } from "../../Store/Slices/userDataSlices";
@@ -20,16 +19,21 @@ const Header = ({ textColor, background }) => {
 
   return (
     <div style={{ background: background }}>
-      <div className="profile-bar" style={{ color: textColor }}>
-        {userData.username ? (
-          <>
-            <h1 className="profile-name">{userData.username}</h1>
-            <CgProfile className="avatar-icon" size={25} />
-          </>
-        ) : (
-          ""
-        )}
-      </div>
+      {userData.role ? (
+        <div className="profile-bar" style={{ color: textColor }}>
+          {userData.username && userData.role === "Seller" ? (
+            <div className="flex" onClick={() => navigate("/seller")}>
+              <h1 className="profile-name">{userData.username}</h1>
+              <CgProfile className="avatar-icon" size={25} />
+            </div>
+          ) : (
+            <div className="flex" onClick={() => navigate("/purchaser")}>
+              <h1 className="profile-name">{userData.username}</h1>
+              <CgProfile className="avatar-icon" size={25} />
+            </div>
+          )}
+        </div>
+      ) : null}
       <div className="logo-section">
         <h1 className="logo-text" style={{ color: textColor }}>
           CoCook

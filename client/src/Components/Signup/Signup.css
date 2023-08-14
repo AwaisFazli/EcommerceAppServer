@@ -1,17 +1,22 @@
 .Signupcontainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  width: 100%;
   height: 100vh;
-  background-image: linear-gradient(
-    to left,
-    #b0c1c8,
-    #ffcab6,
-    #af8883,
-    #7c8d94,
-    #5a6769,
-    #555a5a
-  );
+  background-image: url("https://www.societe.com.qa/cdn/shop/files/cheese_new_1296x.jpg?v=1672471978");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.Signupcontainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #3b5442;
+  opacity: 0.8;
 }
 .Signupform-wrapper {
   display: flex;
@@ -107,11 +112,11 @@
 }
 
 input:checked + .slider {
-  background-color: #2d5b5a;
+  background-color: #3b5442;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2d5b5a;
+  box-shadow: 0 0 1px #3b5442;
 }
 
 input:checked + .slider:before {

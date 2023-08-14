@@ -13,6 +13,7 @@ import SellerProductPage from "./Components/SellerProducts/SellerProductPage";
 import HomePage from "./Components/HomePage/HomePage";
 import ProductsPage from "./Components/ProductPage/ProductPage";
 import PurchaserProfile from "./Components/PurchaserProfile/PurchaserProfile";
+import SellerProfile from "./Components/SellerProfile/SellerProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { addUserData } from "./Store/Slices/userDataSlices";
 import axios from "axios";
@@ -30,9 +31,9 @@ function App() {
     const token = localStorage.getItem("token");
     if (token) {
       axios
-        .get("/seller/userdata", {
+        .get("/purchaser/userdata", {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             token: token,
           },
         })
@@ -58,6 +59,7 @@ function App() {
           <Route path="/createproduct" element={<CreateProduct />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/profile" element={<PurchaserProfile />} />
+          <Route path="/seller" element={<SellerProfile />} />
         </Routes>
         {/* <div className="App">
       <Router>{user ? <ProtectedRoutes /> : <AuthRoutes />}</Router>

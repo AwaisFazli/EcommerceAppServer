@@ -31,7 +31,13 @@ router.post("/product", auth, imageSaver, sellerControllers.createProduct);
 // will send the product details with product id and its own id using JWT and server will check if the product id is available
 // if available then we will proceed if not then send product not available if available the we will match the seller id
 // written in product if it matches with the sender it then we will make the changes otherwise throw error of unauthorized
-router.put("/product/:id", auth, imageSaver, sellerControllers.editProduct);
+router.put("/productData/:id", auth, sellerControllers.editProduct);
+router.post(
+  "/productImage/:id",
+  auth,
+  imageSaver,
+  sellerControllers.editProductImage
+);
 
 // Delete Seller Product Edit
 // will send the product details with product id and its own id using JWT and server will check if the product id is available
@@ -49,6 +55,7 @@ router.get("/myProducts", auth, sellerControllers.viewProduct);
 // Put Seller Order Status Edit
 // Will send the order id with seller id through jwt and server will authenticate the both ids if matched then the status will be
 // changed otherwise unauthorize message will be shown
-router.get("/order/:id", auth, sellerControllers.editOrderStatus);
+router.put("/order/:id", auth, sellerControllers.editOrderStatus);
+router.get("/orders", auth, sellerControllers.viewOrders);
 
 module.exports = router;

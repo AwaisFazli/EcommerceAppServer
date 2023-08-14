@@ -30,7 +30,7 @@ const CartPage = () => {
 
   useEffect(() => {
     if (userData) {
-      setStyleBar({ left: 0 });
+      setStyleBar({ right: "60vw" });
     }
   }, [userData]);
 
@@ -94,7 +94,7 @@ const CartPage = () => {
   });
 
   return (
-    <div className="transition-all">
+    <div className="transition-all ease-out">
       {openSnackbar ? (
         <div
           className="absolute top-9 right-1/2 bg-white py-[10px] px-[3rem] rounded-2xl shadow-2xl border-black border-2"
@@ -109,7 +109,7 @@ const CartPage = () => {
       <>
         {userData ? "" : <Signin secondary={true} />}
         <div
-          className="cartContainer transition-all h-auto overflow-scroll"
+          className="cartContainer transition-all ease-in-out h-auto overflow-scroll"
           style={styleBar}
         >
           <div className="CartHeader">

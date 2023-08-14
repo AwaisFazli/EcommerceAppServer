@@ -8,10 +8,11 @@ const ProductCard = ({ product }) => {
     state.cartProducts.product.find((prod) => prod._id === product._id)
   );
 
+  const userRole = useSelector((state) => state.userData.personalData.role);
+
   const dispatch = useDispatch();
   const { name, imageUrl, price } = product;
 
-  console.log(selectedProduct?.addToCart);
   const [disable, setDisable] = useState(selectedProduct?.addToCart);
 
   const addProductHander = () => {
@@ -28,14 +29,25 @@ const ProductCard = ({ product }) => {
         <h1 className="product-name">{name}</h1>
         <h1 className="product-divider">_______</h1>
         <h1 className="product-price">${price}</h1>
-        {disable ? (
+        {userRole === "Seller" ? (
           <button className="order-button" disabled>
-            Added
+            Signin As Seller
           </button>
         ) : (
-          <button className="order-button" onClick={() => addProductHander()}>
-            Add to cart
-          </button>
+          <>
+            {disable ? (
+              <button className="order-button" disabled>
+                Added
+              </button>
+            ) : (
+              <button
+                className="order-button"
+                onClick={() => addProductHander()}
+              >
+                Add to cart
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>
