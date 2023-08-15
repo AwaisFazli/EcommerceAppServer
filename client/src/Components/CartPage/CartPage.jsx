@@ -6,13 +6,19 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Signin from "../Signin/Signin";
-import { clearCart } from "../../Store/Slices/cartSlices";
+import { clearCart, removeCartProduct } from "../../Store/Slices/cartSlices";
 import "./CartPage.css";
+import { MdClose } from "react-icons/md";
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartProducts = useSelector((state) => state.cartProducts.product);
+  // const cartProducts = useSelector((state) => state.cartProducts.product);
+  const cartProductsFromStore = useSelector(
+    (state) => state.cartProducts.product
+  );
+
+  const [cartProducts, setCartProducts] = useState(cartProductsFromStore);
   const userData = useSelector((state) => state.userData.personalData.username);
   const [styleBar, setStyleBar] = useState(null);
   const [products, setProducts] = useState(cartProducts);
@@ -23,6 +29,14 @@ const CartPage = () => {
   const total = products.reduce((acc, product) => {
     return acc + product.quantity * product.price;
   }, 0);
+
+  useEffect(() => {
+    setCartProducts(cartProductsFromStore);
+
+    if (cartProductsFromStore.length === 0) {
+      navigate("/products");
+    }
+  }, [cartProductsFromStore]);
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -116,7 +130,7 @@ const CartPage = () => {
             <h1>Cart</h1>
           </div>
           <div className="flex flex-col">
-            {products.map((cartProduct, index) => {
+            {cartProducts.map((cartProduct, index) => {
               return (
                 <div className="bg-white mb-[2rem]" key={index}>
                   <div className="flex">
@@ -162,6 +176,13 @@ const CartPage = () => {
                       ) : (
                         ""
                       )}
+                    </div>
+                    <div>
+                      <span
+                        onClick={() => dispatch(removeCartProduct(cartProduct))}
+                      >
+                        <MdClose size={25} />
+                      </span>
                     </div>
                   </div>
                 </div>

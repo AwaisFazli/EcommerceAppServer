@@ -4,6 +4,7 @@ const userDataSlice = createSlice({
   name: "userData",
   initialState: {
     personalData: {},
+    reload: 1,
   },
   reducers: {
     addUserData(state, action) {
@@ -12,8 +13,11 @@ const userDataSlice = createSlice({
     removeUserData(state, action) {
       state.personalData = {};
     },
+    setReload(state, action) {
+      state.reload = state.reload + 1;
+    },
   },
 });
 
 export default userDataSlice.reducer;
-export const { addUserData, removeUserData } = userDataSlice.actions;
+export const { addUserData, removeUserData, setReload } = userDataSlice.actions;

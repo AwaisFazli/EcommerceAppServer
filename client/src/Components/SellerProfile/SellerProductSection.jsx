@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EditProduct from "../EditProduct/EditProduct";
 import { CircularProgress } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const SellerProductSection = () => {
+  const reloadProducts = useSelector((state) => state.userData.reload);
+  console.log(reloadProducts);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editBar, setEditBar] = useState(false);
   const [editProductData, setEditProductData] = useState({});
   const [sellerProducts, setSellerProducts] = useState([]);
+  const [loadProducts, setLoadProducts] = useState(1);
 
   const closeEditProductBar = (check) => {
     setEditBar(check);
@@ -21,6 +25,7 @@ const SellerProductSection = () => {
 
   useEffect(() => {
     // Fetch products from the server
+    console.log("in");
     setIsLoading(true);
     axios
       .get("/seller/myProducts", {
@@ -37,7 +42,7 @@ const SellerProductSection = () => {
         console.error("Error fetching products:", error);
         setIsLoading(false);
       });
-  }, []);
+  }, [reloadProducts]);
 
   const deleteProduct = (id) => {
     setIsDeleteLoading(true);
@@ -51,6 +56,9 @@ const SellerProductSection = () => {
       .then((response) => {
         console.log("Object deleted successfully:", response.data);
         setIsDeleteLoading(false);
+        setSellerProducts((sellerProducts) =>
+          sellerProducts.filter((product) => product._id !== id)
+        );
       })
       .catch((error) => {
         console.error("Error deleting object:", error);
@@ -82,14 +90,17 @@ const SellerProductSection = () => {
               Add products to show here
             </div>
           ) : (
-            <>
+            <div className="transition-all">
               <div className=" mb-[2rem]">
                 <h1 className="text-[22px]">Your Products</h1>
               </div>
               <div>
-                {sellerProducts.map((product, index) => {
+                {sellerProducts.reverse().map((product, index) => {
                   return (
-                    <div className="flex flex-row mb-[2rem] border-black shadow-xl">
+                    <div
+                      className="flex flex-row mb-[2rem] border-black shadow-xl"
+                      key={index}
+                    >
                       <div className="w-[100px] h-[100px] overflow-hidden">
                         <img src={product.imageUrl} alt="" />
                       </div>
@@ -111,7 +122,7 @@ const SellerProductSection = () => {
                       </div>
                       <div className="flex flex-col justify-center mx-[2rem] text-red-500">
                         {isDeleteLoading ? (
-                          <div className="loader-container">
+                          <div className="w-[100px] h-[100px] flex items-center justify-center">
                             <CircularProgress className="loader" />
                           </div>
                         ) : (
@@ -127,7 +138,7 @@ const SellerProductSection = () => {
                   );
                 })}
               </div>
-            </>
+            </div>
           )}
         </>
       )}

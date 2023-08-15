@@ -27,7 +27,7 @@ const Header = ({ textColor, background }) => {
               <CgProfile className="avatar-icon" size={25} />
             </div>
           ) : (
-            <div className="flex" onClick={() => navigate("/purchaser")}>
+            <div className="flex" onClick={() => navigate("/profile")}>
               <h1 className="profile-name">{userData.username}</h1>
               <CgProfile className="avatar-icon" size={25} />
             </div>

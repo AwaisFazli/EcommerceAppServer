@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { MdClose } from "react-icons/md";
 import "./ProductForm.css";
+import { setReload } from "../../Store/Slices/userDataSlices";
+import { useDispatch } from "react-redux";
 
 const ProductSchema = Yup.object().shape({
   name: Yup.string()
@@ -23,7 +25,7 @@ const ProductSchema = Yup.object().shape({
 });
 
 const ProductForm = ({ setCreateProductBar }) => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -46,7 +48,7 @@ const ProductForm = ({ setCreateProductBar }) => {
             image: null,
           }}
           validationSchema={ProductSchema}
-          onSubmit={async (values) => {
+          onSubmit={async (values, { resetForm }) => {
             setIsLoading(true);
             setError(null);
 
@@ -67,7 +69,11 @@ const ProductForm = ({ setCreateProductBar }) => {
                 },
               });
               console.log("Product added successfully:", response.data);
+              resetForm({ values: "" });
+              setUploadedImage(null);
               setIsLoading(false);
+              setCreateProductBar(false);
+              dispatch(setReload());
             } catch (error) {
               console.error("Error adding product:", error.message);
               setError("Error adding product. Please try again.");
@@ -75,13 +81,14 @@ const ProductForm = ({ setCreateProductBar }) => {
             }
           }}
         >
-          {({ errors, touched, setFieldValue }) => (
+          {({ errors, touched, setFieldValue, values }) => (
             <Form>
               <div>
                 <TextField
                   name="name"
                   label="Product Name"
                   variant="standard"
+                  value={values.name}
                   error={Boolean(errors.name && touched.name)}
                   helperText={
                     errors.name && touched.name && String(errors.name)
@@ -97,6 +104,7 @@ const ProductForm = ({ setCreateProductBar }) => {
                 label="Price"
                 variant="standard"
                 type="number"
+                value={values.price}
                 error={Boolean(errors.price && touched.price)}
                 helperText={
                   errors.price && touched.price && String(errors.price)
@@ -111,6 +119,7 @@ const ProductForm = ({ setCreateProductBar }) => {
                 label="Description"
                 variant="standard"
                 multiline
+                value={values.description}
                 rows={4}
                 error={Boolean(errors.description && touched.description)}
                 helperText={
@@ -128,6 +137,7 @@ const ProductForm = ({ setCreateProductBar }) => {
                 label="Stock Quantity"
                 variant="standard"
                 type="number"
+                value={values.stockQuantity}
                 error={Boolean(errors.stockQuantity && touched.stockQuantity)}
                 helperText={
                   errors.stockQuantity &&

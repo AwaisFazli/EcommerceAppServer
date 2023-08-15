@@ -3,11 +3,12 @@ import { TextField, CircularProgress } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import axios from "axios";
 import "./EditProduct.css";
-
+import { setReload } from "../../Store/Slices/userDataSlices";
+import { useDispatch } from "react-redux";
 const EditProduct = ({ editProductData, closeEditProductBar }) => {
+  const dispatch = useDispatch();
   const [editData, setEditData] = useState(editProductData);
   const [editImage, setEditImage] = useState(editProductData.imageUrl);
-  console.log(editImage);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -65,6 +66,8 @@ const EditProduct = ({ editProductData, closeEditProductBar }) => {
       .then((response) => {
         console.log("Updated Successfully");
         setIsLoading(false);
+        closeEditProductBar(false);
+        dispatch(setReload());
       })
       .catch((error) => {
         console.error("Error fetching products:", error.message);
