@@ -26,7 +26,7 @@ const CartPage = () => {
   const [error, setError] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const total = products.reduce((acc, product) => {
+  const total = cartProducts.reduce((acc, product) => {
     return acc + product.quantity * product.price;
   }, 0);
 
@@ -60,10 +60,11 @@ const CartPage = () => {
   }, []);
 
   const handleQuantityChange = (productId, change) => {
-    setProducts((prevProducts) => {
+    setCartProducts((prevProducts) => {
       const updatedProducts = prevProducts.map((product) => {
         if (product._id === productId) {
           const newQuantity = product.quantity + change;
+
           return {
             ...product,
             quantity: newQuantity < 1 ? 1 : newQuantity,
@@ -71,12 +72,13 @@ const CartPage = () => {
         }
         return product;
       });
+
       return updatedProducts;
     });
   };
 
   const handleQuantityInput = (productId, newQuantity) => {
-    setProducts((prevProducts) => {
+    setCartProducts((prevProducts) => {
       const updatedProducts = prevProducts.map((product) => {
         if (product._id === productId) {
           return {
@@ -86,6 +88,7 @@ const CartPage = () => {
         }
         return product;
       });
+
       return updatedProducts;
     });
   };
@@ -163,6 +166,7 @@ const CartPage = () => {
                                 e.target.value
                               )
                             }
+                            className="text-center"
                           />
                           <button
                             className="quantity-button"
@@ -217,7 +221,7 @@ const CartPage = () => {
                   onSubmit={(values) => {
                     setIsLoading(true);
                     setError("");
-                    console.log(values, products);
+
                     const token = localStorage.getItem("token");
                     const payload = {
                       information: values,

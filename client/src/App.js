@@ -19,7 +19,6 @@ import { addUserData } from "./Store/Slices/userDataSlices";
 import axios from "axios";
 
 function App() {
-  const [token, setToken] = useState("");
   const dispatch = useDispatch();
 
   const setUserData = (payload) => {
