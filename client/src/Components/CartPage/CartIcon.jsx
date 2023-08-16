@@ -1,6 +1,6 @@
 import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useNavigate } from "react-router-dom";
 const CartIcon = () => {
   const naviagate = useNavigate();

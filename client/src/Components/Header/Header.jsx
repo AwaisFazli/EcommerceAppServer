@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-import "./HeaderStyles.css";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUserData } from "../../Store/Slices/userDataSlices";
+import "./HeaderStyles.css";
 
 const Header = ({ textColor, background }) => {
   const dispatch = useDispatch();

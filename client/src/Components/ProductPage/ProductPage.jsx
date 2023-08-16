@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-import { Link, useNavigate } from "react-router-dom";
-import "./ProductPage.css";
-import { useDispatch } from "react-redux";
-import { addCartProduct, setOpenCart } from "../../Store/Slices/cartSlices";
 import { useSelector } from "react-redux";
-import CartPage from "../CartPage/CartPage";
 import { CircularProgress } from "@mui/material";
+import { Pagination } from "@mui/material";
+import CartPage from "../CartPage/CartPage";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import ProductCard from "../ProductCard/ProductCard";
 import CartIcon from "../CartPage/CartIcon";
-import { Pagination } from "@mui/material";
+import axios from "axios";
+import "./ProductPage.css";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState("");
-  const dispatch = useDispatch();
   const isCartOpen = useSelector((state) => state.cartProducts.isOpen);
-  const navigate = useNavigate();
   const [page, setPage] = React.useState(1);
   const offset = 8;
   const count = Math.ceil(products.length / offset);
@@ -44,21 +38,6 @@ const ProductsPage = () => {
         console.error("Error fetching products:", error.message);
       });
   }, []);
-  const signOutHandler = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
-
-  const cartProductHandler = (product) => {
-    const token = localStorage.getItem("token");
-    // const token = null;
-    if (token) {
-      dispatch(addCartProduct(product));
-      dispatch(setOpenCart(true));
-    } else {
-      navigate("/signin");
-    }
-  };
 
   return (
     <div className="background-white">

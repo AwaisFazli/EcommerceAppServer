@@ -1,20 +1,17 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import "./HomePageStyles.css";
 import Header from "../Header/Header";
 import ProductCard from "../ProductCard/ProductCard";
 import Footer from "../Footer/Footer";
 import CartIcon from "../CartPage/CartIcon";
+import axios from "axios";
+import "./HomePageStyles.css";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState("");
-  const dispatch = useDispatch();
-  const isCartOpen = useSelector((state) => state.cartProducts.isOpen);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,10 +28,7 @@ const HomePage = () => {
         console.error("Error fetching products:", error.message);
       });
   }, []);
-  const signOutHandler = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
+
   return (
     <div className=" bg-custom-gray ">
       <CartIcon />

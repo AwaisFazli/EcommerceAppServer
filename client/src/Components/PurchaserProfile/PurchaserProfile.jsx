@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import PurchaserOrdersSection from "./PurchaserOrderSection";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { removeUserData } from "../../Store/Slices/userDataSlices";
+import PurchaserOrdersSection from "./PurchaserOrderSection";
+import axios from "axios";
 
 const PurchaserProfile = () => {
   const navigate = useNavigate();

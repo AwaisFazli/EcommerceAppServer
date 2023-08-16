@@ -6,13 +6,11 @@ import { useSelector } from "react-redux";
 
 const SellerProductSection = () => {
   const reloadProducts = useSelector((state) => state.userData.reload);
-  console.log(reloadProducts);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editBar, setEditBar] = useState(false);
   const [editProductData, setEditProductData] = useState({});
   const [sellerProducts, setSellerProducts] = useState([]);
-  const [loadProducts, setLoadProducts] = useState(1);
 
   const closeEditProductBar = (check) => {
     setEditBar(check);

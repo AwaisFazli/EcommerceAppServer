@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { TextField, CircularProgress } from "@mui/material";
 import { MdClose } from "react-icons/md";
-import axios from "axios";
-import "./EditProduct.css";
 import { setReload } from "../../Store/Slices/userDataSlices";
 import { useDispatch } from "react-redux";
+import axios from "axios";
+import "./EditProduct.css";
+
 const EditProduct = ({ editProductData, closeEditProductBar }) => {
   const dispatch = useDispatch();
   const [editData, setEditData] = useState(editProductData);

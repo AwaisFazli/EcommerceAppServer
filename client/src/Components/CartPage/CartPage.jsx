@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { TextField, CircularProgress, Snackbar, Alert } from "@mui/material";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { clearCart, removeCartProduct } from "../../Store/Slices/cartSlices";
+import { MdClose } from "react-icons/md";
+import * as Yup from "yup";
 import axios from "axios";
 import Signin from "../Signin/Signin";
-import { clearCart, removeCartProduct } from "../../Store/Slices/cartSlices";
 import "./CartPage.css";
-import { MdClose } from "react-icons/md";
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const cartProducts = useSelector((state) => state.cartProducts.product);
+
   const cartProductsFromStore = useSelector(
     (state) => state.cartProducts.product
   );

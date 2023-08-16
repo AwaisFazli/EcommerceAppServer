@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserData } from "../../Store/Slices/userDataSlices";
 import { addUserData } from "../../Store/Slices/userDataSlices";
 import { CircularProgress } from "@mui/material";
 import { IoChevronBackSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 import ProductForm from "../CreateProduct/CreateProduct";
-import { useNavigate } from "react-router-dom";
 import SellerProductSection from "./SellerProductSection";
 import SellerOrdersSection from "./SellerOrdersSection";
+import axios from "axios";
 
 const SellerProfile = () => {
   const dispatch = useDispatch();

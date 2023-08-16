@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { TextField, Button, CircularProgress } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { TextField, CircularProgress } from "@mui/material";
 import { MdClose } from "react-icons/md";
-import "./ProductForm.css";
 import { setReload } from "../../Store/Slices/userDataSlices";
 import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+import axios from "axios";
+import "./ProductForm.css";
 
 const ProductSchema = Yup.object().shape({
   name: Yup.string()

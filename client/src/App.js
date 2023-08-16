@@ -1,22 +1,20 @@
-import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { addUserData } from "./Store/Slices/userDataSlices";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./App.css";
+
 import Signup from "./Components/Signup/Signup";
 import Signin from "./Components/Signin/Signin";
 import CreateProduct from "./Components/CreateProduct/CreateProduct";
-import ProductPage from "./Components/ProductPage/ProductPage";
 import CartPage from "./Components/CartPage/CartPage";
-// import AuthRoutes from "./routes/Auth";
-// import ProtectedRoutes from "./routes/ProtectedRoutes";
 import SellerProductPage from "./Components/SellerProducts/SellerProductPage";
 import HomePage from "./Components/HomePage/HomePage";
 import ProductsPage from "./Components/ProductPage/ProductPage";
 import PurchaserProfile from "./Components/PurchaserProfile/PurchaserProfile";
 import SellerProfile from "./Components/SellerProfile/SellerProfile";
-import { useDispatch, useSelector } from "react-redux";
-import { addUserData } from "./Store/Slices/userDataSlices";
+
 import axios from "axios";
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,7 +24,6 @@ function App() {
   };
 
   useEffect(() => {
-    // setToken(localStorage.getItem("token"));
     const token = localStorage.getItem("token");
     if (token) {
       axios
@@ -45,7 +42,6 @@ function App() {
     }
   }, []);
 
-  const user = "";
   return (
     <Router>
       <div className="App">
@@ -60,9 +56,6 @@ function App() {
           <Route path="/profile" element={<PurchaserProfile />} />
           <Route path="/seller" element={<SellerProfile />} />
         </Routes>
-        {/* <div className="App">
-      <Router>{user ? <ProtectedRoutes /> : <AuthRoutes />}</Router>
-    </div> */}
       </div>
     </Router>
   );

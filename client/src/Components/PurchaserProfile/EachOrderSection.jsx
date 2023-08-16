@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
+
 const EachOrderSection = ({ order, setEachOrderSection }) => {
   const [data, setData] = useState(order);
 

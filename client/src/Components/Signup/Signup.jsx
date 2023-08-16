@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
+import { TextField, CircularProgress } from "@mui/material";
 import * as Yup from "yup";
-import { TextField, Button, CircularProgress } from "@mui/material";
-import "./Signup.css";
 import axios from "axios";
+import "./Signup.css";
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()

@@ -12,7 +12,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { MdDelete, MdClose, MdArrowBackIos } from "react-icons/md";
-
 import { useNavigate } from "react-router-dom";
 import "./SellerProductPage.css";
 
@@ -24,7 +23,6 @@ const SellerProductsPage = () => {
   const [editBarWidth, setEditBarWidth] = useState(0);
   const [isLoading, setIsLoading] = useState("");
   const navigate = useNavigate();
-  // const Server = "http://localhost:8000";
 
   const editBarOpen = (check, product) => {
     setEditBar(check);
@@ -52,7 +50,6 @@ const SellerProductsPage = () => {
   };
 
   useEffect(() => {
-    // Fetch products from the server
     axios
       .get("/seller/myProducts", {
         headers: {
@@ -70,7 +67,6 @@ const SellerProductsPage = () => {
   }, []);
 
   const deleteProduct = (id) => {
-    // console.log("http://localhost:8000/seller/product/" + id);
     axios
       .delete("/seller/product/" + id, {
         headers: {

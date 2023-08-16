@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import EachOrderSection from "./EachOrderSection";
+import axios from "axios";
 
 const SellerOrdersSection = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const [ordersData, setOrdersData] = useState([]);
   const [eachOrder, setEachOrder] = useState(null);
   const [eachOrderSection, setEachOrderSection] = useState(false);
-
-  const sectionPositionHandler = () => {};
 
   const orderHandler = (order) => {
     setEachOrderSection(true);
